@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Мария Некрасова](https://up.htmlacademy.ru/javascript/26/user/2100951).
-* Наставник:  [Андрей Устименко] (https://htmlacademy.ru/profile/spiritmoon)
+* Наставник:  [Андрей Устименко](https://htmlacademy.ru/profile/spiritmoon)
 ---
 
 _Не удаляйте и не изменяйте самовольно файлы и папки:_
