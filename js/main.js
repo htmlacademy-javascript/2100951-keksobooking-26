@@ -5,10 +5,10 @@ function getRandomIntInclusive(from, to) {
     return Math.floor(Math.random() * (to - from + 1)) + from;
   }
 
-  return null
+  return null;
 }
 
-getRandomIntInclusive(9.8, 42.3)
+getRandomIntInclusive(9.8, 42.3);
 
 
 function getRandomIntInclusive2(from, to, digits) {
@@ -16,8 +16,8 @@ function getRandomIntInclusive2(from, to, digits) {
     return (Math.random() * (to - from + 1) + from).toFixed(digits);
   }
 
-  return null
+  return null;
 }
 
-getRandomIntInclusive2(9.8, 42.3, 3)
+getRandomIntInclusive2(9.8, 42.3, 3);
 
