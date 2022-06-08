@@ -1,4 +1,4 @@
-function getRandomIntInclusive(from, to) {
+function getRandomInt(from, to) {
   if (from >= 0 && to >= 0 && from <= to) {
     from = Math.ceil(from);
     to = Math.floor(to);
@@ -8,10 +8,10 @@ function getRandomIntInclusive(from, to) {
   return null;
 }
 
-getRandomIntInclusive(9.8, 42.3);
+getRandomInt(9.8, 42.3);
 
 
-function getRandomIntInclusive2(from, to, digits) {
+function getRandomIntFloat(from, to, digits) {
   if (from >= 0 && to >= 0 && from <= to && digits >= 0) {
     return (Math.random() * (to - from + 1) + from).toFixed(digits);
   }
@@ -19,5 +19,5 @@ function getRandomIntInclusive2(from, to, digits) {
   return null;
 }
 
-getRandomIntInclusive2(9.8, 42.3, 3);
+getRandomIntFloat(9.8, 42.3, 3);
 
