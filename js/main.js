@@ -1,23 +1,26 @@
 const AUTHOR = {
-    avatar: function () {
-      let listAvatars = [];
+  avatar: function () {
+    const listAvatars = [];
 
-      for (let i = 1; i <= 10; i++) {
-        if (i < 10) {
-          i = '0' + i;
-        }
-        let avatars = 'img/avatars/user' + i + '.png';
-        listAvatars.push(avatars);
+    for (let i = 1; i <= 10; i++) {
+      if (i < 10) {
+        i = i.padStart(1, '0');
       }
-      return listAvatars;
+      const avatars = 'img/avatars/user' + i + '.png';
+      listAvatars.push(avatars);
     }
+    return listAvatars;
   }
-;
+};
 
 
 const OFFER = {
   title: 'Заголовок',
-  address: ('location[lat] ' + 'location[lng]'),
+  address: location =
+    {
+      lat: getRandomIntFloat(35.65000, 35.70000, 5),
+      lng: getRandomIntFloat(139.70000, 139.80000, 5)
+    },
   price: getRandomIntFloat(),
   type: ['palace', 'flat', 'house', 'bungalow', 'hotel'],
   rooms: getRandomInt(),
@@ -26,15 +29,15 @@ const OFFER = {
   checkout: ['12:00', '13:00', '14:00'],
 
   features: function () {
-    let getFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+    const getFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
     for (let i = 1; i < getFeatures.length; i++) {
-      getFeatures[i] += getRandomInt(0, 10)
+      getFeatures[i] += getRandomInt(0, 10);
     }
     return getFeatures;
   },
   description: 'Описание помещения',
   photos: function () {
-    let getPhotos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+    const getPhotos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
       'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
       'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
     for (let i = 1; i < getPhotos.length; i++) {
