@@ -16,11 +16,7 @@ const AUTHOR = {
 
 const OFFER = {
   title: 'Заголовок',
-  address: location =
-    {
-      lat: getRandomIntFloat(35.65000, 35.70000, 5),
-      lng: getRandomIntFloat(139.70000, 139.80000, 5)
-    },
+  address: 'location[lat]' + 'location[lng]',
   price: getRandomIntFloat(),
   type: ['palace', 'flat', 'house', 'bungalow', 'hotel'],
   rooms: getRandomInt(),
@@ -74,8 +70,8 @@ function getRandomIntFloat(from, to, digits) {
 
 
 const getRandomArrayElement = (elements) => {
-  return elements[getRandomInt(0, elements.length - 1)]
-}
+  return elements[getRandomInt(0, elements.length - 1)];
+};
 
 
 const createAd = () => {
@@ -84,7 +80,7 @@ const createAd = () => {
     offer: OFFER.title + OFFER.address.location + OFFER.price + getRandomArrayElement(OFFER.type)
       + OFFER.rooms + OFFER.guests + getRandomArrayElement(OFFER.checkin)
       + getRandomArrayElement(OFFER.checkout) + OFFER.features + OFFER.photos(),
-    location: location['lat' + ';' + 'lng']
+    location: location.lat + location.lng,
   };
 };
 
