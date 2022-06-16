@@ -6,7 +6,7 @@ const AUTHOR = {
       if (i < 10) {
         i = i.padStart(1, '0');
       }
-      const avatars = 'img/avatars/user' + i + '.png';
+      const avatars = 'img/avatars/user' + ${i} +'.png';
       listAvatars.push(avatars);
     }
     return listAvatars;
@@ -16,7 +16,7 @@ const AUTHOR = {
 
 const OFFER = {
   title: 'Заголовок',
-  address: 'location[lat]' + 'location[lng]',
+  address: '${LOCATION}',
   price: getRandomIntFloat(),
   type: ['palace', 'flat', 'house', 'bungalow', 'hotel'],
   rooms: getRandomInt(),
@@ -43,7 +43,7 @@ const OFFER = {
   }
 };
 
-let location =
+const LOCATION =
   {
     lat: getRandomIntFloat(35.65000, 35.70000, 5),
     lng: getRandomIntFloat(139.70000, 139.80000, 5)
@@ -69,19 +69,19 @@ function getRandomIntFloat(from, to, digits) {
 }
 
 
-const getRandomArrayElement = (elements) => {
-  return elements[getRandomInt(0, elements.length - 1)];
-};
+const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
 
 const createAd = () => {
   return {
     author: AUTHOR.avatar,
     offer: OFFER.title + OFFER.address.location + OFFER.price + getRandomArrayElement(OFFER.type)
-      + OFFER.rooms + OFFER.guests + getRandomArrayElement(OFFER.checkin)
-      + getRandomArrayElement(OFFER.checkout) + OFFER.features + OFFER.photos(),
-    location: location.lat + location.lng,
+    + OFFER.rooms + OFFER.guests + getRandomArrayElement(OFFER.checkin)
+    + getRandomArrayElement(OFFER.checkout) + OFFER.features + OFFER.photos(),
+    location: LOCATION.lat + LOCATION.lng,
   };
 };
 
+
 const ad = Array.from({length: 10}, createAd);
+console.log(ad);
