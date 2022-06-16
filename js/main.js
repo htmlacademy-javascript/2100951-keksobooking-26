@@ -1,17 +1,17 @@
 const AUTHOR = {
-  avatar: function () {
-   let listAvatars = [];
+    avatar: function () {
+      let listAvatars = [];
 
-    for (let i = 1; i <= 10; i++) {
-      if (i < 10) {
-        i = '0' + i;
+      for (let i = 1; i <= 10; i++) {
+        if (i < 10) {
+          i = '0' + i;
+        }
+        let avatars = 'img/avatars/user' + i + '.png';
+        listAvatars.push(avatars);
       }
-      let avatars = 'img/avatars/user' + i + '.png';
-      listAvatars.push(avatars);
+      return listAvatars;
     }
-    return listAvatars;
   }
-}
 ;
 
 
@@ -86,5 +86,3 @@ const createAd = () => {
 };
 
 const ad = Array.from({length: 10}, createAd);
-
-
