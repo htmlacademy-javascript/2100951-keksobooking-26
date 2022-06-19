@@ -18,23 +18,26 @@ const GUESTS = {
 const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECKIN = ['12:00', '13:00', '14:00'];
 const CHECKOUT = ['12:00', '13:00', '14:00'];
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTO = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
 const LOCATION = {
   minLat: 35.65000,
   maxLat: 35.70000,
   minLng: 139.70000,
   maxLng: 139.80000,
   round: 5
-}
+};
 
 const createAd = (id) => {
+
   const location = {
     lat: getRandomFloat(LOCATION.minLat, LOCATION.maxLat, LOCATION.round),
     lng: getRandomFloat(LOCATION.minLng, LOCATION.maxLng, LOCATION.round),
   };
+
   return {
     author: {
       avatar: `img/avatars/user${String(id).padStart(2, '0')}.png`
@@ -85,4 +88,3 @@ const createAds = (max) => Array.from({length: max},
 );
 
 createAds(MAX_ADS);
-console.log(createAds(10))
