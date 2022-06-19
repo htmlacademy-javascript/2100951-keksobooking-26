@@ -1,5 +1,4 @@
-
-getRandomInt = (from, to) => {
+const getRandomInt = (from, to) => {
   if (from >= 0 && to >= 0 && from <= to) {
     from = Math.ceil(from);
     to = Math.floor(to);
@@ -7,15 +6,15 @@ getRandomInt = (from, to) => {
   }
 
   return null;
-}
+};
 
 
-getRandomFloat = (from, to, digits) => {
+const getRandomFloat = (from, to, digits) => {
   if (from >= 0 && to >= 0 && from <= to && digits >= 0) {
     return (Math.random() * (to - from + 1) + from).toFixed(digits);
   }
   return null;
-}
+};
 
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
@@ -35,7 +34,7 @@ const ROOMS = {
 
 const GUESTS = {
   min: 1,
-  max: 999
+  max: 999,
 };
 
 const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
