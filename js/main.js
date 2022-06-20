@@ -20,7 +20,6 @@ const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 const PHOTO = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-
 const LOCATION = {
   minLat: 35.65000,
   maxLat: 35.70000,
@@ -28,8 +27,8 @@ const LOCATION = {
   maxLng: 139.80000,
   round: 5
 };
-const createAd = (id) => {
 
+const createAd = (id) => {
   const location = {
     lat: getRandomFloat(LOCATION.minLat, LOCATION.maxLat, LOCATION.round),
     lng: getRandomFloat(LOCATION.minLng, LOCATION.maxLng, LOCATION.round),
@@ -39,7 +38,6 @@ const createAd = (id) => {
     author: {
       avatar: `img/avatars/user${String(id).padStart(2, '0')}.png`
     },
-
     offer: {
       title: 'Заголовок',
       address: `${location.lat}, ${location.lng}`,
@@ -54,11 +52,9 @@ const createAd = (id) => {
       photos: PHOTO.slice(0, getRandomInt(1, PHOTO.length)),
     }
   };
-
 };
 
 const createAds = (max) => Array.from({length: max},
   (_, index) => createAd(index + 1)
 );
-
 createAds(MAX_ADS);
