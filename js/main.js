@@ -62,4 +62,3 @@ const createAds = (max) => Array.from({length: max},
 );
 
 createAds(MAX_ADS);
-console.log(createAds(MAX_ADS))
