@@ -1,42 +1,18 @@
-const getRandomInt = (from, to) => {
-  if (from >= 0 && to >= 0 && from <= to) {
-    from = Math.ceil(from);
-    to = Math.floor(to);
-    return Math.floor(Math.random() * (to - from + 1)) + from;
-  }
-
-  return null;
-};
-
-
-const getRandomFloat = (from, to, digits) => {
-  if (from >= 0 && to >= 0 && from <= to && digits >= 0) {
-    return (Math.random() * (to - from + 1) + from).toFixed(digits);
-  }
-  return null;
-};
-
-
-const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
-
+import {getRandomInt, getRandomFloat, getRandomArrayElement} from './util.js';
 
 const MAX_ADS = 10;
-
 const PRICE = {
   min: 1000,
   max: 100000,
 };
-
 const ROOMS = {
   min: 1,
   max: 1000,
 };
-
 const GUESTS = {
   min: 1,
   max: 999,
 };
-
 const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECKIN = ['12:00', '13:00', '14:00'];
 const CHECKOUT = ['12:00', '13:00', '14:00'];
@@ -52,7 +28,6 @@ const LOCATION = {
   maxLng: 139.80000,
   round: 5
 };
-
 const createAd = (id) => {
 
   const location = {
@@ -87,3 +62,4 @@ const createAds = (max) => Array.from({length: max},
 );
 
 createAds(MAX_ADS);
+console.log(createAds(MAX_ADS))
