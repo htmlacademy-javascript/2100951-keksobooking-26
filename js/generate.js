@@ -1,4 +1,4 @@
-import {createAds} from "./main.js";
+import {createAds} from './main.js';
 
 const displayAreaElement = document.querySelector('#map-canvas');
 
