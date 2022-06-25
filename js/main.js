@@ -1,4 +1,5 @@
 import {getRandomInt, getRandomFloat, getRandomArrayElement} from './util.js';
+import './generate.js';
 
 const MAX_ADS = 10;
 const PRICE = {
@@ -54,7 +55,7 @@ const createAd = (id) => {
   };
 };
 
-const createAds = (max) => Array.from({length: max},
+export const createAds = (max) => Array.from({length: max},
   (_, index) => createAd(index + 1)
 );
 createAds(MAX_ADS);

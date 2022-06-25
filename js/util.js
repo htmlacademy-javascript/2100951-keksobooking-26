@@ -1,4 +1,4 @@
-const getRandomInt = (from, to) => {
+export const getRandomInt = (from, to) => {
   if (from >= 0 && to >= 0 && from <= to) {
     from = Math.ceil(from);
     to = Math.floor(to);
@@ -8,7 +8,7 @@ const getRandomInt = (from, to) => {
   return null;
 };
 
-const getRandomFloat = (from, to, digits) => {
+export const getRandomFloat = (from, to, digits) => {
   if (from >= 0 && to >= 0 && from <= to && digits >= 0) {
     return (Math.random() * (to - from + 1) + from).toFixed(digits);
   }
@@ -16,6 +16,5 @@ const getRandomFloat = (from, to, digits) => {
   return null;
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
+export const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
-export {getRandomInt, getRandomFloat, getRandomArrayElement};
