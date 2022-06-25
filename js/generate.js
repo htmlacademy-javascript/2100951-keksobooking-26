@@ -5,8 +5,8 @@ const displayAreaElement = document.querySelector('#map-canvas');
 const templateForm = document.querySelector('#card').content;
 const template = templateForm.querySelector('.popup');
 const form = document.createDocumentFragment();
-
 const element = template.cloneNode(true);
+
 const typeTranslate = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -36,6 +36,7 @@ const photosArray = createAds[0].offer.photos;
 const photosContainerElement = element.querySelector('.popup__photos');
 const photoElement = element.querySelector('.popup__photo');
 photosContainerElement.innerHTML = '';
+
 if (photosArray) {
   photosArray.forEach((photo) => {
     const clonedPhotoElement = photoElement.cloneNode(true);
@@ -44,17 +45,16 @@ if (photosArray) {
   });
 }
 
-element.querySelector('.popup__title').innerHtml = createAds[0].offer.title.textContent;
-element.querySelector('.popup__text--address').innerHtml = createAds[0].offer.address.textContent;
-element.querySelector('.popup__text--price').innerHtml = createAds[0].offer.price.textContent ? `${createAds[0].offer.price.textContent  }<span>₽/ночь</span>` : '';
+element.querySelector('.popup__title').innerHtml = createAds[0].offer.title.textContent || '';
+element.querySelector('.popup__text--address').innerHtml = createAds[0].offer.address.textContent || '';
+element.querySelector('.popup__text--price').innerHtml = createAds[0].offer.price ? `${createAds[0].offer.price}<span>₽/ночь</span>` : '';
 element.querySelector('.popup__text--capacity').innerHtml = createAds[0].offer.rooms && createAds[0].offer.guests
-  ? `${createAds[0].offer.rooms.textContent} комнаты для ${createAds[0].offer.guests.textContent} гостей` : '';
-element.querySelector('.popup__text--time').innerHtml = createAds[0].offer.checkin.textContent && createAds[0].offer.checkout.textContent
-  ? `Заезд после ${createAds[0].offer.checkin.textContent}, выезд до ${createAds[0].offer.checkout.textContent}` : '';
-element.querySelector('.popup__description').innerHtml = createAds[0].offer.description.textContent;
+  ? `${createAds[0].offer.rooms} комнаты для ${createAds[0].offer.guests} гостей` : '';
+element.querySelector('.popup__text--time').innerHtml = createAds[0].offer.checkin && createAds[0].offer.checkout
+  ? `Заезд после ${createAds[0].offer.checkin}, выезд до ${createAds[0].offer.checkout}` : '';
+element.querySelector('.popup__description').innerHtml = createAds[0].offer.description.textContent || '';
 element.querySelector('.popup__type').innerHtml = typeTranslate[createAds[0].offer.type];
-element.querySelector('img').src = createAds[0].author.avatar ? createAds[0].author.avatar : element.querySelector('img').style.display = 'none';
-
+element.querySelector('.popup__avatar').src = createAds[0].author.avatar ? createAds[0].author.avatar : element.querySelector('.popup__avatar').style.display = 'none';
 
 form.appendChild(element);
 displayAreaElement.appendChild(form);
