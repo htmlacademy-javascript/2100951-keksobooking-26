@@ -5,7 +5,7 @@ const displayAreaElement = document.querySelector('#map-canvas');
 const templateForm = document.querySelector('#card').content;
 const template = templateForm.querySelector('.popup');
 const form = document.createDocumentFragment();
-const createAd = createAds ();
+const createAdCard = createAds ();
 
 const createOffers = (createAd) => {
   const element = template.cloneNode(true);
@@ -62,6 +62,6 @@ const createOffers = (createAd) => {
   return element;
 };
 
-const generateOffers = createOffers(createAd[0]);
+const generateOffers = createOffers(createAdCard[0]);
 form.appendChild(generateOffers);
 displayAreaElement.appendChild(form);
