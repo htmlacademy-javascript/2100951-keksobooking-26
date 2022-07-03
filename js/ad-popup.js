@@ -37,7 +37,6 @@ const createPopup = (ad) => {
     img.height = 40;
     img.alt = 'Фотография жилья';
 
-
     photosContainer.append(img);
   }
 
