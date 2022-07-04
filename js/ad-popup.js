@@ -1,8 +1,8 @@
-import {createAds, MAX_ADS, PHOTO, FEATURES} from './main.js';
+import {createAds, MAX_ADS} from './ad.js';
 
 const map = document.querySelector('#map-canvas');
-const WIDHT = 40;
-const HEIGHT= 45;
+const WIDTH= 40;
+const HEIGHT = 45;
 const typeTranslate = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -20,21 +20,20 @@ const createPopup = (ad) => {
 
   const featuresContainer = element.querySelector('.popup__features');
 
-  for (const feature of FEATURES) {
+  for (const feature of ad.offer.features) {
     const li = document.createElement('li');
     li.className = `popup__feature--${feature}`;
     li.textContent = feature;
 
     featuresContainer.append(li);
   }
-
   const photosContainer = element.querySelector('.popup__photos');
 
-  for (const photo of PHOTO) {
+  for (const photo of ad.offer.photos) {
     const img = document.createElement('img');
     img.src = photo;
     img.classList.add('popup__photo');
-    img.width = WIDHT;
+    img.width = WIDTH;
     img.height = HEIGHT;
     img.alt = 'Фотография жилья';
 
@@ -43,7 +42,7 @@ const createPopup = (ad) => {
 
   element.querySelector('.popup__title').textContent = ad.offer.title;
   element.querySelector('.popup__text--address').textContent = ad.offer.address;
-  element.querySelector('.popup__text--price').textContent = `${ad.offer.price}<span>₽/ночь</span>`;
+  element.querySelector('.popup__text--price').textContent = `${ad.offer.price} ₽/ночь`;
   element.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
   element.querySelector('.popup__text--time').textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
   element.querySelector('.popup__description').textContent = ad.offer.description || '';
@@ -53,5 +52,5 @@ const createPopup = (ad) => {
   return element;
 };
 
-const offer = createPopup(adCards[0]);
-map.appendChild(offer);
+const popup = createPopup(adCards[0]);
+map.appendChild(popup);
