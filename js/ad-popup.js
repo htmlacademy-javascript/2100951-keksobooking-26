@@ -1,7 +1,8 @@
 import {createAds, MAX_ADS, PHOTO, FEATURES} from './main.js';
 
 const map = document.querySelector('#map-canvas');
-
+const WIDHT = 40;
+const HEIGHT= 45;
 const typeTranslate = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -19,10 +20,10 @@ const createPopup = (ad) => {
 
   const featuresContainer = element.querySelector('.popup__features');
 
-  for (const anyFeature of FEATURES) {
+  for (const feature of FEATURES) {
     const li = document.createElement('li');
-    li.className = `popup__feature--${anyFeature}`;
-    li.textContent = anyFeature;
+    li.className = `popup__feature--${feature}`;
+    li.textContent = feature;
 
     featuresContainer.append(li);
   }
@@ -33,8 +34,8 @@ const createPopup = (ad) => {
     const img = document.createElement('img');
     img.src = photo;
     img.classList.add('popup__photo');
-    img.width = 45;
-    img.height = 40;
+    img.width = WIDHT;
+    img.height = HEIGHT;
     img.alt = 'Фотография жилья';
 
     photosContainer.append(img);

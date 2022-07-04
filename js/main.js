@@ -29,7 +29,7 @@ const LOCATION = {
   round: 5
 };
 
-export const createAd = (id) => {
+const createAd = (id) => {
   const location = {
     lat: getRandomFloat(LOCATION.minLat, LOCATION.maxLat, LOCATION.round),
     lng: getRandomFloat(LOCATION.minLng, LOCATION.maxLng, LOCATION.round),
