@@ -17,8 +17,8 @@ const GUESTS = {
 const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECKIN = ['12:00', '13:00', '14:00'];
 const CHECKOUT = ['12:00', '13:00', '14:00'];
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const PHOTO = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+export const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+export const PHOTO = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 const LOCATION = {
@@ -29,7 +29,7 @@ const LOCATION = {
   round: 5
 };
 
-const createAd = (id) => {
+export const createAd = (id) => {
   const location = {
     lat: getRandomFloat(LOCATION.minLat, LOCATION.maxLat, LOCATION.round),
     lng: getRandomFloat(LOCATION.minLng, LOCATION.maxLng, LOCATION.round),

@@ -1,4 +1,4 @@
-import {createAds, MAX_ADS} from './main.js';
+import {createAds, MAX_ADS, PHOTO, FEATURES} from './main.js';
 
 const map = document.querySelector('#map-canvas');
 
@@ -19,7 +19,7 @@ const createPopup = (ad) => {
 
   const featuresContainer = element.querySelector('.popup__features');
 
-  for (const anyFeature of createAds.features) {
+  for (const anyFeature of FEATURES) {
     const li = document.createElement('li');
     li.className = `popup__feature--${anyFeature}`;
     li.textContent = anyFeature;
@@ -29,7 +29,7 @@ const createPopup = (ad) => {
 
   const photosContainer = element.querySelector('.popup__photos');
 
-  for (const photo of createAds.photos) {
+  for (const photo of PHOTO) {
     const img = document.createElement('img');
     img.src = photo;
     img.classList.add('popup__photo');
