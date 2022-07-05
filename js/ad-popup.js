@@ -1,8 +1,9 @@
 import {createAds, MAX_ADS} from './ad.js';
 
 const map = document.querySelector('#map-canvas');
-const WIDTH= 40;
+const WIDTH = 40;
 const HEIGHT = 45;
+const ALT = 'Фотография жилья';
 const typeTranslate = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -35,7 +36,7 @@ const createPopup = (ad) => {
     img.classList.add('popup__photo');
     img.width = WIDTH;
     img.height = HEIGHT;
-    img.alt = 'Фотография жилья';
+    img.alt = ALT;
 
     photosContainer.append(img);
   }
