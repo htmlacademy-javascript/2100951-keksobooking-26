@@ -13,10 +13,39 @@ const lngCenter = 139.42500;
 
 const houseTypeField = form.querySelector('#type');
 const housePriceField = form.querySelector('#price');
+const sliderElement = form.querySelector('.ad-form__slider');
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100000,
+  },
+  start: 0,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  housePriceField.value = sliderElement.noUiSlider.get();
+});
 
 const setPriceField = (value) => {
-  housePriceField.placeholder=value;
-  housePriceField.min=value;
+  housePriceField.placeholder = value;
+  housePriceField.min = value;
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: value,
+      max: 100000,
+    },
+    start: value,
+  });
 };
 
 const setPriceForHouseType = () => {
@@ -40,7 +69,7 @@ const setPriceForHouseType = () => {
 };
 
 window.addEventListener('load', () => {
-  address.value = `${latCenter.toFixed(5)}, ${lngCenter.toFixed(5)  }`;
+  address.value = `${latCenter.toFixed(5)}, ${lngCenter.toFixed(5)}`;
   setPriceForHouseType();
 });
 
