@@ -9,7 +9,6 @@ const pristine = new Pristine(form, {
 
 const address = form.querySelector('#address');
 const latCenter = 35.70000;
-const lngCenter = 139.42500;
 
 const houseTypeField = form.querySelector('#type');
 const housePriceField = form.querySelector('#price');
