@@ -1,5 +1,12 @@
 const form = document.querySelector('.ad-form');
 
+const CAPACITY_OPTIONS= {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+}
+
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -86,8 +93,27 @@ pristine.addValidator(
 
 const roomNumber = form.querySelector('#room_number');
 const guestNumber = form.querySelector('#capacity');
+const capacityOptionList = guestNumber.children;
 
-const validateGuestNumber = () => roomNumber.value >= guestNumber.value;
+const isCorrectCapacity = (capacityValue) => CAPACITY_OPTIONS[roomNumber.value].some(value => capacityValue === value);
+
+const selectCapacityOption = () => {
+  for (let i = 0; i < capacityOptionList.length; i++) {
+    const capacityOption = capacityOptionList[i];
+    if (isCorrectCapacity(capacityOption.value)) {
+      capacityOption.removeAttribute('disabled');
+    } else {
+      capacityOption.setAttribute('disabled', '');
+    }
+  }
+};
+
+selectCapacityOption();
+
+roomNumber.addEventListener('input', () => {
+  selectCapacityOption();
+  pristine.validate(guestNumber);
+});
 
 const getGuestsErrorMessage = () => {
   switch (roomNumber.value) {
@@ -102,7 +128,7 @@ const getGuestsErrorMessage = () => {
   }
 };
 
-pristine.addValidator(guestNumber, validateGuestNumber, getGuestsErrorMessage);
+pristine.addValidator(guestNumber, isCorrectCapacity, getGuestsErrorMessage);
 
 const timeIn = form.querySelector('#timein');
 const timeOut = form.querySelector('#timeout');
