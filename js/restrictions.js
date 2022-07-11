@@ -1,5 +1,7 @@
 const form = document.querySelector('.ad-form');
 
+const MIN = 0;
+const MAX = 100000;
 const CAPACITY_OPTIONS= {
   '1': ['1'],
   '2': ['1', '2'],
@@ -15,18 +17,16 @@ const pristine = new Pristine(form, {
 });
 
 const address = form.querySelector('#address');
-const latCenter = 35.70000;
-
 const houseTypeField = form.querySelector('#type');
 const housePriceField = form.querySelector('#price');
 const sliderElement = form.querySelector('.ad-form__slider');
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: 0,
-    max: 100000,
+    min: MIN,
+    max: MAX,
   },
-  start: 0,
+  start: MIN,
   connect: 'lower',
   format: {
     to: function (value) {
@@ -48,7 +48,7 @@ const setPriceField = (value) => {
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: value,
-      max: 100000,
+      max: MAX,
     },
     start: value,
   });
@@ -83,10 +83,11 @@ houseTypeField.addEventListener('change', () => {
   setPriceForHouseType();
 });
 
-const validatePrice = () => parseInt(housePriceField.getAttribute('min'), 10) <= housePriceField.value;
+const validatePrice = () => +housePriceField.getAttribute('min');
+ const price = form.querySelector('#price');
 
 pristine.addValidator(
-  form.querySelector('#price'),
+  price,
   validatePrice,
   'Указанная сумма меньше минимальной'
 );
