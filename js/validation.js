@@ -49,7 +49,6 @@ housePriceField.addEventListener('change', () => {
   sliderElement.noUiSlider.set([housePriceField.value, null]);
 });
 
-
 const setPriceField = (value) => {
   housePriceField.placeholder = value;
   housePriceField.min = value;
@@ -81,11 +80,6 @@ const setPriceForHouseType = () => {
       break;
   }
 };
-
-window.addEventListener('load', () => {
-  address.value = `${latCenter.toFixed(5)}, ${lngCenter.toFixed(5)}`;
-  setPriceForHouseType();
-});
 
 houseTypeField.addEventListener('change', () => {
   setPriceForHouseType();
