@@ -107,4 +107,4 @@ const showAlertErrorSend = () => {
   });
 };
 
-export { showAlertErrorGet, showAlertSuccessSend, showAlertErrorSend};
+export {isEscapeKey, showAlertErrorGet, showAlertSuccessSend, showAlertErrorSend};

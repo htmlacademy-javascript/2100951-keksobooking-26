@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { showSuccessMessage , showErrorMessage } from './utils.js';
+import {showAlertErrorSend, showAlertSuccessSend} from './utils.js';
 import { resetMap } from './map.js';
 
 const mapForm = document.querySelector('.map__filters');
@@ -63,13 +63,13 @@ const resetButton = formAd.querySelector('.ad-form__reset');
     const formData = new FormData(evt.target);
 
     sendData(() => {
-      showSuccessMessage();
+      showAlertSuccessSend();
       formAd.reset();
       resetMap();
       unblockSubmitButton();
     },
     () => {
-      showErrorMessage();
+      showAlertErrorSend();
       unblockSubmitButton();
     }, formData); 
     
