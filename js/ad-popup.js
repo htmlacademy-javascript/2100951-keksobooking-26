@@ -1,6 +1,3 @@
-import {createAds, MAX_ADS} from './ad.js';
-
-const map = document.querySelector('#map-canvas');
 const WIDTH = 40;
 const HEIGHT = 45;
 const ALT = 'Фотография жилья';
@@ -14,9 +11,8 @@ const typeTranslate = {
 
 const templateCard = document.querySelector('#card').content;
 const popupElement = templateCard.querySelector('.popup');
-const adCards = createAds(MAX_ADS);
 
-export const createPopup = (ad) => {
+ export const createPopup = (ad) => {
   const element = popupElement.cloneNode(true);
 
   const featuresContainer = element.querySelector('.popup__features');
@@ -52,5 +48,3 @@ export const createPopup = (ad) => {
 
   return element;
 };
-
-export const popup = createPopup(adCards[0]);

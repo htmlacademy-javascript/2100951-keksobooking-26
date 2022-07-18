@@ -1,5 +1,8 @@
-const form = document.querySelector('.ad-form');
+import {sendData} from './api.js';
+import {showAlertErrorSend, showAlertSuccessSend} from './utils.js';
 
+const form = document.querySelector('.ad-form');
+const resetButton = form.querySelector('.ad-form__reset');
 const MIN = 0;
 const MAX = 100000;
 const CAPACITY_OPTIONS= {
@@ -42,6 +45,11 @@ sliderElement.noUiSlider.on('update', () => {
   housePriceField.value = sliderElement.noUiSlider.get();
 });
 
+housePriceField.addEventListener('change', () => {
+  sliderElement.noUiSlider.set([housePriceField.value, null]);
+});
+
+
 const setPriceField = (value) => {
   housePriceField.placeholder = value;
   housePriceField.min = value;
@@ -56,10 +64,10 @@ const setPriceField = (value) => {
 
 const setPriceForHouseType = () => {
   switch (houseTypeField.value) {
-    case 'flat':
+      case 'flat':
       setPriceField(1000);
       break;
-    case 'bungalow':
+      case 'bungalow':
       setPriceField(0);
       break;
     case 'house':
@@ -141,8 +149,27 @@ timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
-form.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
+const reset = () => {
+  form.reset();
+  address.value = `${latCenter.toFixed(5)}, ${lngCenter.toFixed(5)  }`;
+  setPriceForHouseType();
+};
+
+resetButton.addEventListener('click',(evt)=>{
+  evt.preventDefault();
+  reset();
 });
+
+export const setUserFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if (pristine.validate()) {
+      sendData(
+        ()=>{showAlertSuccessSend();
+          reset();},
+          showAlertErrorSend,
+        new FormData(evt.target),
+      );
+
+    }
+  });};
