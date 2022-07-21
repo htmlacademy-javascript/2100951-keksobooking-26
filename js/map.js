@@ -1,21 +1,27 @@
-import {activatePage, setAddress} from './forms.js';
+import {activateForm, setAddress} from './forms.js';
 import {createPopup} from './ad-popup.js';
-import { createAds } from './ad.js';
+import { getAds } from './api.js';
+import { showAlertError } from './error-message.js';
 
 const TOKYO = { lat: 35.65283, lng: 139.83948 };
 const MAP_ZOOM = 10;
 
-export const map = L.map('map-canvas')
-  .on('load', () => {
-    activatePage();
-  })
-  .setView({
+const onMapLoaded = () => {
+getAds((ads) => {
+  activateForm;
+  renderPins(ads);
+  setAdFormForSubmit;
+},
+() => showAlertError());
+};
+
+const map = L.map('map-canvas')
+.on('load', onMapLoaded)
+.setView({
     lat: TOKYO.lat,
     lng: TOKYO.lng,
   },MAP_ZOOM
 );
-
-const layerGroup = L.layerGroup().addTo(map);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -23,6 +29,8 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
+const layerGroup = L.layerGroup().addTo(map);
 
  const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -49,13 +57,12 @@ const markerCenter = L.marker(
   );
  markerCenter.addTo(map);
 
- marker.on('moveend', (evt) => {
+ markerCenter.on('moveend', (evt) => {
   setAddress(evt.target.getLatLng())
  });
 
-
- export const createPinMarker = (ad) => {
-  createAds.forEach((ad) => {
+ export const renderPins = (ads) => {
+  ads.forEach((ad) => {
     const pinMarker = L.marker(
       {
         lat: ad.location.lat,
@@ -72,6 +79,18 @@ const markerCenter = L.marker(
    });
  };
 
+  export const resetMap = () => {
+    markerCenter.setLatLng({
+      lat: TOKYO.lat,
+      lng: TOKYO.lng,
+    });
   
-   
- 
+    map.setView({
+      lat: TOKYO.lat,
+      lng: TOKYO.lng,
+    }, MAP_ZOOM);
+  };
+
+  const resetButton = document.querySelector('.ad-form__reset');
+  resetButton.addEventListener('click', resetMap);
+  

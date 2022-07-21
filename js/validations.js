@@ -1,8 +1,4 @@
-import {sendData} from './api.js';
-import {showAlertErrorSend, showAlertSuccessSend} from './utils.js';
-
 const form = document.querySelector('.ad-form');
-const resetButton = form.querySelector('.ad-form__reset');
 const MIN = 0;
 const MAX = 100000;
 const CAPACITY_OPTIONS= {
@@ -19,7 +15,6 @@ const pristine = new Pristine(form, {
   errorTextClass: 'form__error'
 });
 
-const address = form.querySelector('#address');
 const houseTypeField = form.querySelector('#type');
 const housePriceField = form.querySelector('#price');
 const sliderElement = form.querySelector('.ad-form__slider');
@@ -143,28 +138,4 @@ timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
-const reset = () => {
-  form.reset();
-  address.value = `${latCenter.toFixed(5)}, ${lngCenter.toFixed(5)  }`;
-  setPriceForHouseType();
-};
 
-resetButton.addEventListener('click',(evt)=>{
-  evt.preventDefault();
-  reset();
-});
-
-export const setUserFormSubmit = () => {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    if (pristine.validate()) {
-      sendData(
-        ()=>{showAlertSuccessSend();
-          reset();},
-          showAlertErrorSend,
-        new FormData(evt.target),
-      );
-
-    }
-  });
-};

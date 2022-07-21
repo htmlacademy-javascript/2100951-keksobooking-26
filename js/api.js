@@ -1,17 +1,20 @@
-const getData = (onSuccess, onFail) => {
-    fetch('https://26.javascript.pages.academy/keksobooking/data')
-      .then((response) => response.json())
-      .then((array) => {
-        onSuccess(array);
-      })
-      .catch(() => {
-        onFail();
-      });
-  };
+const getAddress = 'https://26.javascript.pages.academy/keksobooking/data';
+const saveAddress =  'https://26.javascript.pages.academy/keksobooking'
+
+function getAds(onSuccess, onFail) {
+  fetch(getAddress)
+    .then((response) => response.json())
+    .then((ads) => {
+      onSuccess(ads);
+    })
+    .catch(() => {
+      onFail();
+    });
+}
   
-  const sendData = (onSuccess, onFail, body) => {
+  const saveAd = (onSuccess, onFail, body) => {
     fetch(
-      'https://26.javascript.pages.academy/keksobooking',
+      saveAddress,
       {
         method: 'POST',
         body,
@@ -29,4 +32,4 @@ const getData = (onSuccess, onFail) => {
       });
   };
   
-  export {getData, sendData};
+  export {getAds, saveAd};
