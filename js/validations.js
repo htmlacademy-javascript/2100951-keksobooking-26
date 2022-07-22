@@ -6,7 +6,7 @@ const CAPACITY_OPTIONS= {
   '2': ['1', '2'],
   '3': ['1', '2', '3'],
   '100': ['0']
-}
+};
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -58,10 +58,10 @@ const setPriceField = (value) => {
 
 const setPriceForHouseType = () => {
   switch (houseTypeField.value) {
-      case 'flat':
+    case 'flat':
       setPriceField(1000);
       break;
-      case 'bungalow':
+    case 'bungalow':
       setPriceField(0);
       break;
     case 'house':
@@ -81,7 +81,7 @@ houseTypeField.addEventListener('change', () => {
 });
 
 const validatePrice = () => +housePriceField.getAttribute('min');
- const price = form.querySelector('#price');
+const price = form.querySelector('#price');
 
 pristine.addValidator(
   price,
@@ -93,7 +93,7 @@ const roomNumber = form.querySelector('#room_number');
 const guestNumber = form.querySelector('#capacity');
 const capacityOptionList = guestNumber.children;
 
-const isCorrectCapacity = (capacityValue) => CAPACITY_OPTIONS[roomNumber.value].some(value => capacityValue === value);
+const isCorrectCapacity = (capacityValue) => CAPACITY_OPTIONS[roomNumber.value].some((value) => capacityValue === value);
 
 const selectCapacityOption = () => {
   for (let i = 0; i < capacityOptionList.length; i++) {

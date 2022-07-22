@@ -1,24 +1,15 @@
+import { isEscapeKey } from './utils.js';
+
 const ALERT_SHOW_TIME = 5000;
 
 const showAlertError = () => {
- const alertContainer = document.createElement('div');
- document.body.append(alertContainer);
+  const alertContainer = document.createElement('div');
+  document.body.append(alertContainer);
 
- setTimeout(() => {
-   alertContainer.remove();
- }, ALERT_SHOW_TIME);
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
-
-function debounce (callback, timeoutDelay = 500) {
- let timeoutId;
-
- return (...rest) => {
-
-   clearTimeout(timeoutId);
-
-   timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
- };
-}
 
 const messageSuccessTemplate = document.querySelector('#success')
   .content
