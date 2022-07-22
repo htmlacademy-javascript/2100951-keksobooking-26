@@ -1040,3 +1040,17 @@ fieldset {
   display: block;
   color: #000000;
 }
+
+.show_alert_message {
+z-index: 1100;
+position: fixed;
+left: 0;
+top: 0;
+right: 0;
+padding: 8px 4px;
+font-size: 20px;
+text-align: center;
+color: #f0f0ea;
+background-color: #ff5635;
+transition: 1000;
+}

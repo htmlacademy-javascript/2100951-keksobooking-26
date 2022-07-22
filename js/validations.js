@@ -1,5 +1,4 @@
 const form = document.querySelector('.ad-form');
-
 const MIN = 0;
 const MAX = 100000;
 const CAPACITY_OPTIONS= {
@@ -7,7 +6,7 @@ const CAPACITY_OPTIONS= {
   '2': ['1', '2'],
   '3': ['1', '2', '3'],
   '100': ['0']
-}
+};
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -16,7 +15,6 @@ const pristine = new Pristine(form, {
   errorTextClass: 'form__error'
 });
 
-const address = form.querySelector('#address');
 const houseTypeField = form.querySelector('#type');
 const housePriceField = form.querySelector('#price');
 const sliderElement = form.querySelector('.ad-form__slider');
@@ -40,6 +38,10 @@ noUiSlider.create(sliderElement, {
 
 sliderElement.noUiSlider.on('update', () => {
   housePriceField.value = sliderElement.noUiSlider.get();
+});
+
+housePriceField.addEventListener('change', () => {
+  sliderElement.noUiSlider.set([housePriceField.value, null]);
 });
 
 const setPriceField = (value) => {
@@ -74,17 +76,12 @@ const setPriceForHouseType = () => {
   }
 };
 
-window.addEventListener('load', () => {
-  address.value = `${latCenter.toFixed(5)}, ${lngCenter.toFixed(5)}`;
-  setPriceForHouseType();
-});
-
 houseTypeField.addEventListener('change', () => {
   setPriceForHouseType();
 });
 
 const validatePrice = () => +housePriceField.getAttribute('min');
- const price = form.querySelector('#price');
+const price = form.querySelector('#price');
 
 pristine.addValidator(
   price,
@@ -96,7 +93,7 @@ const roomNumber = form.querySelector('#room_number');
 const guestNumber = form.querySelector('#capacity');
 const capacityOptionList = guestNumber.children;
 
-const isCorrectCapacity = (capacityValue) => CAPACITY_OPTIONS[roomNumber.value].some(value => capacityValue === value);
+const isCorrectCapacity = (capacityValue) => CAPACITY_OPTIONS[roomNumber.value].some((value) => capacityValue === value);
 
 const selectCapacityOption = () => {
   for (let i = 0; i < capacityOptionList.length; i++) {
@@ -141,8 +138,4 @@ timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
-form.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
-});
+

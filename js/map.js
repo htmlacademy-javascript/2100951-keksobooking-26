@@ -1,20 +1,17 @@
-import {activatePage} from './conditions.js';
-import {popup} from './ad-popup.js';
+import { activateForm, setAddress } from './forms.js';
+import {createPopup} from './ad-popup.js';
+import { getAds } from './api.js';
+import { showAlertError } from './error-message.js';
+import {  setFilterListener } from './filters.js';
+
+export const removeMapPin = () => {
+  layerGroup.clearLayers();
+};
 
 const TOKYO = { lat: 35.65283, lng: 139.83948 };
 const MAP_ZOOM = 10;
-const NUMBER_OF_AD = 10;
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    activatePage();
-  })
-  .setView({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  },MAP_ZOOM);
-
-const layerGroup = L.layerGroup().addTo(map);
+const map = L.map('map-canvas');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -23,19 +20,19 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const createMainPin = () => {
-    const mainPinIcon = L.icon({
-      iconUrl: './img/main-pin.svg',
-      iconSize: [52, 52],
-      iconAnchor: [26, 52],
-    });
-}
-    const createPinsOnMap = (ads, createFromTemplate) => {
-        const pinIcon = L.icon({
-          iconUrl: './img/pin.svg',
-          iconSize: [40, 40],
-          iconAnchor: [20, 40],
-        });
+const layerGroup = L.layerGroup().addTo(map);
+
+const mainPinIcon = L.icon({
+  iconUrl: './img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [25, 50],
+});
+
+const pinIcon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 const markerCenter = L.marker(
   {
@@ -47,26 +44,27 @@ const markerCenter = L.marker(
     autoPan: true,
     icon: mainPinIcon,
   },
-  );
+);
+markerCenter.addTo(map);
 
-  markerCenter.addTo(map);
-  return markerCenter;
+markerCenter.on('moveend', (evt) => {
+  setAddress(evt.target.getLatLng());
+});
+
+export const resetMap = () => {
+  markerCenter.setLatLng({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  });
+
+  map.setView({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  }, MAP_ZOOM);
 };
 
-const markers = (marker) => {
-    const address = document.querySelector('#address');
-    const markerCoordinates = marker.getLatLng();
-
-    address.value = `${markerCoordinates.lat.toFixed(5)}, ${markerCoordinates.lng.toFixed(5)}`;
-  
-    marker.on('moveend', (evt) => {
-      const coordinates = evt.target.getLatLng();
-      address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
-    });
-  };
-
- const createPinMarker = (ad) => {
-
+export const renderPins = (ads) => {
+  ads.slice(0, 10).forEach((ad) => {
     const pinMarker = L.marker(
       {
         lat: ad.location.lat,
@@ -79,21 +77,25 @@ const markers = (marker) => {
 
     pinMarker
       .addTo(layerGroup)
-      .bindPopup(createFromTemplate(ad));
-
-    return pinMarker;
-  };
-
-  ads.forEach((ad) => {
-    createPinMarker(ad);
+      .bindPopup(createPopup(ad));
   });
+ 
+};
 
-export const makeInteractiveMap = (ads) => {
-    map();
+const resetButton = document.querySelector('.ad-form__reset');
+resetButton.addEventListener('click', resetMap);
 
-    const marker =  createMainPin();
-    markers(marker);
+const onMapLoaded = () => {
+  getAds((ads) => {
+    activateForm();
+    renderPins(ads);
+    setFilterListener(ads);
+  }, showAlertError);
+};
 
-    createPinsOnMap(ads.slice(0, NUMBER_OF_AD), popup);
-  };
-  
+map.on('load', onMapLoaded)
+  .setView({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  },MAP_ZOOM);
+

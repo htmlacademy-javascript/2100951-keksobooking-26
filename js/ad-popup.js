@@ -1,6 +1,3 @@
-import {createAds, MAX_ADS} from './ad.js';
-
-const map = document.querySelector('#map-canvas');
 const WIDTH = 40;
 const HEIGHT = 45;
 const ALT = 'Фотография жилья';
@@ -14,32 +11,37 @@ const typeTranslate = {
 
 const templateCard = document.querySelector('#card').content;
 const popupElement = templateCard.querySelector('.popup');
-const adCards = createAds(MAX_ADS);
 
 export const createPopup = (ad) => {
   const element = popupElement.cloneNode(true);
 
   const featuresContainer = element.querySelector('.popup__features');
 
-  for (const feature of ad.offer.features) {
-    const li = document.createElement('li');
-    li.className = `popup__feature--${feature}`;
-    li.textContent = feature;
+  if (ad.offer.features) {
+    for (const feature of ad.offer.features) {
+      const li = document.createElement('li');
+      li.className = `popup__feature--${feature}`;
+      li.textContent = feature;
 
-    featuresContainer.append(li);
+      featuresContainer.append(li);
+    }
   }
-  const photosContainer = element.querySelector('.popup__photos');
 
-  for (const photo of ad.offer.photos) {
-    const img = document.createElement('img');
-    img.src = photo;
-    img.classList.add('popup__photo');
-    img.width = WIDTH;
-    img.height = HEIGHT;
-    img.alt = ALT;
+  if (ad.offer.photos) {
+    const photosContainer = element.querySelector('.popup__photos');
 
-    photosContainer.append(img);
+    for (const photo of ad.offer.photos) {
+      const img = document.createElement('img');
+      img.src = photo;
+      img.classList.add('popup__photo');
+      img.width = WIDTH;
+      img.height = HEIGHT;
+      img.alt = ALT;
+
+      photosContainer.append(img);
+    }
   }
+
 
   element.querySelector('.popup__title').textContent = ad.offer.title;
   element.querySelector('.popup__text--address').textContent = ad.offer.address;
@@ -52,5 +54,3 @@ export const createPopup = (ad) => {
 
   return element;
 };
-
-export const popup = createPopup(adCards[0]);
