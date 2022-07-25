@@ -2,7 +2,7 @@ import { activateForm, setAddress } from './forms.js';
 import {createPopup} from './ad-popup.js';
 import { getAds } from './api.js';
 import { showAlertError } from './error-message.js';
-import {  setFilterListener } from './filters.js';
+import { getMaxAds, saveAds } from './ads.js';
 
 export const removeMapPin = () => {
   layerGroup.clearLayers();
@@ -51,20 +51,10 @@ markerCenter.on('moveend', (evt) => {
   setAddress(evt.target.getLatLng());
 });
 
-export const resetMap = () => {
-  markerCenter.setLatLng({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  });
-
-  map.setView({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  }, MAP_ZOOM);
-};
-
 export const renderPins = (ads) => {
-  ads.slice(0, 10).forEach((ad) => {
+removeMapPin();
+
+  ads.forEach((ad) => {
     const pinMarker = L.marker(
       {
         lat: ad.location.lat,
@@ -82,14 +72,28 @@ export const renderPins = (ads) => {
  
 };
 
+export const onMapReset = () => {
+  markerCenter.setLatLng({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  });
+
+  map.setView({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  }, MAP_ZOOM);
+
+  renderPins(getMaxAds());
+};
+
 const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', resetMap);
+resetButton.addEventListener('click', onMapReset);
 
 const onMapLoaded = () => {
   getAds((ads) => {
     activateForm();
-    renderPins(ads);
-    setFilterListener(ads);
+    saveAds(ads);
+    renderPins(getMaxAds());
   }, showAlertError);
 };
 
