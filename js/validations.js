@@ -8,7 +8,7 @@ const CAPACITY_OPTIONS= {
   '100': ['0']
 };
 
-const pristine = new Pristine(form, {
+export const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
@@ -39,6 +39,10 @@ noUiSlider.create(sliderElement, {
 sliderElement.noUiSlider.on('update', () => {
   housePriceField.value = sliderElement.noUiSlider.get();
 });
+
+export const resetSlider = () => {
+  sliderElement.noUiSlider.set(5000);
+};
 
 housePriceField.addEventListener('change', () => {
   sliderElement.noUiSlider.set([housePriceField.value, null]);
@@ -80,7 +84,7 @@ houseTypeField.addEventListener('change', () => {
   setPriceForHouseType();
 });
 
-const validatePrice = () => +housePriceField.getAttribute('min');
+const validatePrice = () => parseInt(housePriceField.getAttribute('min'),10) <= housePriceField.value;
 const price = form.querySelector('#price');
 
 pristine.addValidator(

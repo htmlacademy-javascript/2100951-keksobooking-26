@@ -1,8 +1,10 @@
-import { activateForm, setAddress } from './forms.js';
+import { activateForm, disableForm, setAddress } from './forms.js';
 import {createPopup} from './ad-popup.js';
 import { getAds } from './api.js';
 import { showAlertError } from './error-message.js';
 import { getMaxAds, saveAds } from './ads.js';
+
+disableForm();
 
 export const removeMapPin = () => {
   layerGroup.clearLayers();
