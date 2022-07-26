@@ -2,7 +2,7 @@ import { saveAd } from './api.js';
 import { showAlertDialog, showSuccesDialog } from './error-message.js';
 import { onMapReset } from './map.js';
 import { onFilterReset } from './filters.js';
-import { pristine } from './validations.js';
+import { pristine, defaultPrice } from './validations.js';
 
 const mapForm = document.querySelector('.map__filters');
 const mapFormSelects = mapForm.querySelectorAll('select');
@@ -49,6 +49,7 @@ export const onFormReset = () => {
   form.reset();
   onFilterReset();
   pristine.reset();
+  
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
@@ -69,13 +70,14 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
-    blockSubmitButton();
 
+    blockSubmitButton();
     saveAd(() => {
       showSuccesDialog();
       onFormReset();
       onMapReset();
       unblockSubmitButton();
+      defaultPrice();
     },
       () => {
         showAlertDialog();
