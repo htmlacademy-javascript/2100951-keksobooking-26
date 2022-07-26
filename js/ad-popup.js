@@ -1,6 +1,7 @@
 const WIDTH = 40;
 const HEIGHT = 45;
 const ALT = 'Фотография жилья';
+
 const typeTranslate = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -14,7 +15,6 @@ const popupElement = templateCard.querySelector('.popup');
 
 export const createPopup = (ad) => {
   const element = popupElement.cloneNode(true);
-
   const featuresContainer = element.querySelector('.popup__features');
 
   if (ad.offer.features) {
@@ -41,7 +41,6 @@ export const createPopup = (ad) => {
       photosContainer.append(img);
     }
   }
-
 
   element.querySelector('.popup__title').textContent = ad.offer.title;
   element.querySelector('.popup__text--address').textContent = ad.offer.address;

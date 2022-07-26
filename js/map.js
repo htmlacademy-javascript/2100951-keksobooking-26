@@ -1,13 +1,8 @@
-import { activateForm, disableForm, onFormReset, setAddress } from './forms.js';
+import { activateForm, resetForm, setAddress } from './forms.js';
 import { createPopup } from './ad-popup.js';
 import { getAds } from './api.js';
 import { showAlertError } from './error-message.js';
 import { getMaxAds, saveAds } from './ads.js';
-disableForm();
-
-export const removeMapPin = () => {
-  layerGroup.clearLayers();
-};
 
 const TOKYO = { lat: 35.65283, lng: 139.83948 };
 const MAP_ZOOM = 10;
@@ -52,6 +47,10 @@ markerCenter.on('moveend', (evt) => {
   setAddress(evt.target.getLatLng());
 });
 
+export const removeMapPin = () => {
+  layerGroup.clearLayers();
+};
+
 export const renderPins = (ads) => {
   removeMapPin();
 
@@ -92,7 +91,7 @@ resetButton.addEventListener('click', onMapReset);
 
 const onMapLoaded = () => {
   getAds((ads) => {
-    onFormReset();
+    resetForm();
     activateForm();
     saveAds(ads);
     renderPins(getMaxAds());

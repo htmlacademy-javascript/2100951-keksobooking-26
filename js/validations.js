@@ -1,4 +1,3 @@
-const form = document.querySelector('.ad-form');
 const MIN = 0;
 const MAX = 100000;
 const CAPACITY_OPTIONS = {
@@ -7,6 +6,16 @@ const CAPACITY_OPTIONS = {
   '3': ['1', '2', '3'],
   '100': ['0']
 };
+const MIN_PRICE_OF_HOUSE = {
+  'palace': 10000,
+  'flat': 1000,
+  'house': 5000,
+  'bungalow': 0,
+  'hotel': 3000
+};
+const PRICE_ERROR_MESSAGE = 'Указанная сумма меньше минимальной';
+
+const form = document.querySelector('.ad-form');
 
 export const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -40,45 +49,29 @@ sliderElement.noUiSlider.on('update', () => {
   priceElement.value = sliderElement.noUiSlider.get();
 });
 
-priceElement.addEventListener('change', () => {
+priceElement.addEventListener('input', () => {
   sliderElement.noUiSlider.set([priceElement.value, null]);
 });
 
-export const setPriceField = (value) => {
-  priceElement.placeholder = value;
-  priceElement.min = value;
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: value,
-      max: MAX,
-    },
-    start: value,
-  });
-};
-
-const MIN_PRICE_OF_HOUSE = {
-  'palace': 10000,
-  'flat': 1000,
-  'house': 5000,
-  'bungalow': 0,
-  'hotel': 3000
-};
 export const defaultPrice = () => {
   priceElement.placeholder = MIN_PRICE_OF_HOUSE[typeElement.value];
   priceElement.min = MIN_PRICE_OF_HOUSE[typeElement.value];
-}
+};
+
 typeElement.addEventListener('change', () => {
   defaultPrice();
 });
 
+defaultPrice();
 
 const validatePrice = () => parseInt(priceElement.getAttribute('min'), 10) <= priceElement.value;
+
 const price = form.querySelector('#price');
 
 pristine.addValidator(
   price,
   validatePrice,
-  'Указанная сумма меньше минимальной'
+  PRICE_ERROR_MESSAGE
 );
 
 const roomNumber = form.querySelector('#room_number');
@@ -90,6 +83,7 @@ const isCorrectCapacity = (capacityValue) => CAPACITY_OPTIONS[roomNumber.value].
 const selectCapacityOption = () => {
   for (let i = 0; i < capacityOptionList.length; i++) {
     const capacityOption = capacityOptionList[i];
+
     if (isCorrectCapacity(capacityOption.value)) {
       capacityOption.removeAttribute('disabled');
     } else {
@@ -126,6 +120,7 @@ const timeOut = form.querySelector('#timeout');
 timeIn.addEventListener('change', () => {
   timeOut.value = timeIn.value;
 });
+
 timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });

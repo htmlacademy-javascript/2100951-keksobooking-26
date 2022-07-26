@@ -1,7 +1,7 @@
 import { saveAd } from './api.js';
-import { showAlertDialog, showSuccesDialog } from './error-message.js';
+import { showAlertDialog, showSuccessDialog } from './error-message.js';
 import { onMapReset } from './map.js';
-import { onFilterReset } from './filters.js';
+import { filterReset } from './filters.js';
 import { pristine, defaultPrice } from './validations.js';
 
 const mapForm = document.querySelector('.map__filters');
@@ -30,6 +30,8 @@ export const disableForm = () => {
   });
 };
 
+disableForm();
+
 export const activateForm = () => {
   mapForm.classList.remove('map__filters--disabled');
   adForm.classList.remove('ad-form--disabled');
@@ -45,17 +47,15 @@ export const activateForm = () => {
   });
 };
 
-export const onFormReset = () => {
+export const resetForm = () => {
   form.reset();
-  onFilterReset();
+  filterReset();
   pristine.reset();
-  
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', onFormReset);
-
 const submitButton = document.querySelector('.ad-form__submit');
+
 const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = 'Опубликовываем...';
@@ -70,27 +70,26 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
-
     blockSubmitButton();
     saveAd(() => {
-      showSuccesDialog();
-      onFormReset();
+      showSuccessDialog();
+      resetForm();
       onMapReset();
       unblockSubmitButton();
       defaultPrice();
     },
-      () => {
-        showAlertDialog();
-        unblockSubmitButton();
-      },
-      new FormData(evt.target),
-    )
-  };
+    () => {
+      showAlertDialog();
+      unblockSubmitButton();
+    },
+    new FormData(evt.target),
+    );
+  }
 });
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  onFormReset();
+  resetForm();
 });
 
 
