@@ -1,9 +1,8 @@
-import { activateForm, disableForm, setAddress } from './forms.js';
-import {createPopup} from './ad-popup.js';
+import { activateForm, disableForm, onFormReset, setAddress } from './forms.js';
+import { createPopup } from './ad-popup.js';
 import { getAds } from './api.js';
 import { showAlertError } from './error-message.js';
 import { getMaxAds, saveAds } from './ads.js';
-
 disableForm();
 
 export const removeMapPin = () => {
@@ -54,7 +53,7 @@ markerCenter.on('moveend', (evt) => {
 });
 
 export const renderPins = (ads) => {
-removeMapPin();
+  removeMapPin();
 
   ads.forEach((ad) => {
     const pinMarker = L.marker(
@@ -71,7 +70,7 @@ removeMapPin();
       .addTo(layerGroup)
       .bindPopup(createPopup(ad));
   });
- 
+
 };
 
 export const onMapReset = () => {
@@ -93,6 +92,7 @@ resetButton.addEventListener('click', onMapReset);
 
 const onMapLoaded = () => {
   getAds((ads) => {
+    onFormReset();
     activateForm();
     saveAds(ads);
     renderPins(getMaxAds());
@@ -103,5 +103,5 @@ map.on('load', onMapLoaded)
   .setView({
     lat: TOKYO.lat,
     lng: TOKYO.lng,
-  },MAP_ZOOM);
+  }, MAP_ZOOM);
 

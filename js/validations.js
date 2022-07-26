@@ -1,7 +1,7 @@
 const form = document.querySelector('.ad-form');
 const MIN = 0;
 const MAX = 100000;
-const CAPACITY_OPTIONS= {
+const CAPACITY_OPTIONS = {
   '1': ['1'],
   '2': ['1', '2'],
   '3': ['1', '2', '3'],
@@ -15,8 +15,8 @@ export const pristine = new Pristine(form, {
   errorTextClass: 'form__error'
 });
 
-const houseTypeField = form.querySelector('#type');
-const housePriceField = form.querySelector('#price');
+const typeElement = form.querySelector('#type');
+const priceElement = form.querySelector('#price');
 const sliderElement = form.querySelector('.ad-form__slider');
 
 noUiSlider.create(sliderElement, {
@@ -37,20 +37,16 @@ noUiSlider.create(sliderElement, {
 });
 
 sliderElement.noUiSlider.on('update', () => {
-  housePriceField.value = sliderElement.noUiSlider.get();
+  priceElement.value = sliderElement.noUiSlider.get();
 });
 
-export const resetSlider = () => {
-  sliderElement.noUiSlider.set(5000);
-};
-
-housePriceField.addEventListener('change', () => {
-  sliderElement.noUiSlider.set([housePriceField.value, null]);
+priceElement.addEventListener('change', () => {
+  sliderElement.noUiSlider.set([priceElement.value, null]);
 });
 
 const setPriceField = (value) => {
-  housePriceField.placeholder = value;
-  housePriceField.min = value;
+  priceElement.placeholder = value;
+  priceElement.min = value;
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: value,
@@ -60,31 +56,23 @@ const setPriceField = (value) => {
   });
 };
 
-const setPriceForHouseType = () => {
-  switch (houseTypeField.value) {
-    case 'flat':
-      setPriceField(1000);
-      break;
-    case 'bungalow':
-      setPriceField(0);
-      break;
-    case 'house':
-      setPriceField(5000);
-      break;
-    case 'palace':
-      setPriceField(10000);
-      break;
-    case 'hotel':
-      setPriceField(3000);
-      break;
-  }
+const Price = {
+  MIN: {
+    bungalow: 0,
+    flat: 1000,
+    hotel: 3000,
+    house: 5000,
+    palace: 10000
+  },
+  MAX: 100000
 };
 
-houseTypeField.addEventListener('change', () => {
-  setPriceForHouseType();
+typeElement.addEventListener('change', () => {
+  priceElement.placeholder = Price.MIN[typeElement.value];
+  priceElement.min = Price.MIN[typeElement.value];
 });
 
-const validatePrice = () => parseInt(housePriceField.getAttribute('min'),10) <= housePriceField.value;
+const validatePrice = () => parseInt(priceElement.getAttribute('min'), 10) <= priceElement.value;
 const price = form.querySelector('#price');
 
 pristine.addValidator(
@@ -125,7 +113,7 @@ const getGuestsErrorMessage = () => {
       return 'для 1 гостя или для 2 гостей';
     case '1':
       return 'для 1 гостя';
-    case '0':
+    case '100':
       return 'не для гостей';
   }
 };

@@ -24,11 +24,11 @@ const closeErrorAlertButton = messageErrorTemplate.querySelector('.error__button
 const showSuccesDialog = () => {
   document.body.append(messageSuccessTemplate);
 
-  messageSuccessTemplate.addEventListener('click', ()=>{
+  messageSuccessTemplate.addEventListener('click', () => {
     messageSuccessTemplate.remove();
   });
 
-  document.addEventListener('keydown', (evt)=>{
+  document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       messageSuccessTemplate.remove();
@@ -39,15 +39,15 @@ const showSuccesDialog = () => {
 const showAlertDialog = () => {
   document.body.append(messageErrorTemplate);
 
-  messageErrorTemplate.addEventListener('click', ()=>{
+  messageErrorTemplate.addEventListener('click', () => {
     messageErrorTemplate.remove();
   });
 
-  closeErrorAlertButton.addEventListener('click', ()=>{
+  closeErrorAlertButton.addEventListener('click', () => {
     messageErrorTemplate.remove();
   });
 
-  document.addEventListener('keydown', (evt)=>{
+  document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       messageErrorTemplate.remove();
@@ -55,4 +55,4 @@ const showAlertDialog = () => {
   });
 };
 
-export {showAlertError, showSuccesDialog, showAlertDialog};
+export { showAlertError, showSuccesDialog, showAlertDialog };
