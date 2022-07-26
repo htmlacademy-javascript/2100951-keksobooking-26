@@ -69,7 +69,6 @@ export const renderPins = (ads) => {
       .addTo(layerGroup)
       .bindPopup(createPopup(ad));
   });
-
 };
 
 export const onMapReset = () => {
@@ -103,4 +102,3 @@ map.on('load', onMapLoaded)
     lat: TOKYO.lat,
     lng: TOKYO.lng,
   }, MAP_ZOOM);
-
