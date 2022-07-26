@@ -107,7 +107,7 @@ const getGuestsErrorMessage = () => {
       return 'для 1 гостя или для 2 гостей';
     case '1':
       return 'для 1 гостя';
-    case '0':
+    case '100':
       return 'не для гостей';
   }
 };
