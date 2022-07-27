@@ -28,16 +28,17 @@ const showSuccessDialog = () => {
     removeSuccessDialog();
   });
 
-  document.addEventListener('keydown', (evt) => {
+  const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       removeSuccessDialog();
     }
-  });
+  };
+
+  document.addEventListener('keydown', onDocumentKeydown);
 
   function removeSuccessDialog() {
     messageSuccessTemplate.remove();
-    // eslint-disable-next-line no-undef
     document.removeEventListener('keydown', onDocumentKeydown);
   }
 };

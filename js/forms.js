@@ -51,6 +51,7 @@ export const resetForm = () => {
   form.reset();
   filterReset();
   pristine.reset();
+  defaultPrice();
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
@@ -76,7 +77,6 @@ form.addEventListener('submit', (evt) => {
       resetForm();
       onMapReset();
       unblockSubmitButton();
-      defaultPrice();
     },
     () => {
       showAlertDialog();

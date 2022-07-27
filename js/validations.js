@@ -7,11 +7,11 @@ const CAPACITY_OPTIONS = {
   '100': ['0']
 };
 const MIN_PRICE_OF_HOUSE = {
-  'palace': 10000,
-  'flat': 1000,
-  'house': 5000,
-  'bungalow': 0,
-  'hotel': 3000
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalow: 0,
+  hotel: 3000
 };
 const PRICE_ERROR_MESSAGE = 'Указанная сумма меньше минимальной';
 
@@ -45,7 +45,7 @@ noUiSlider.create(sliderElement, {
   },
 });
 
-sliderElement.noUiSlider.on('update', () => {
+sliderElement.noUiSlider.on('slide', () => {
   priceElement.value = sliderElement.noUiSlider.get();
 });
 
@@ -54,6 +54,7 @@ priceElement.addEventListener('input', () => {
 });
 
 export const defaultPrice = () => {
+  sliderElement.noUiSlider.set(MIN);
   priceElement.placeholder = MIN_PRICE_OF_HOUSE[typeElement.value];
   priceElement.min = MIN_PRICE_OF_HOUSE[typeElement.value];
 };
