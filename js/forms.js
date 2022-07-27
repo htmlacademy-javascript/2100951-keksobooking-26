@@ -2,7 +2,8 @@ import { saveAd } from './api.js';
 import { showAlertDialog, showSuccessDialog } from './error-message.js';
 import { onMapReset } from './map.js';
 import { filterReset } from './filters.js';
-import { pristine, defaultPrice } from './validations.js';
+import { pristine, setPrice } from './validations.js';
+import { avatarReset, photoReset, } from './photos.js';
 
 const mapForm = document.querySelector('.map__filters');
 const mapFormSelects = mapForm.querySelectorAll('select');
@@ -51,7 +52,9 @@ export const resetForm = () => {
   form.reset();
   filterReset();
   pristine.reset();
-  defaultPrice();
+  setPrice();
+  avatarReset();
+  photoReset();
 };
 
 const resetButton = document.querySelector('.ad-form__reset');

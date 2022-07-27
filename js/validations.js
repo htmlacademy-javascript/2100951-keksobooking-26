@@ -53,17 +53,18 @@ priceElement.addEventListener('input', () => {
   sliderElement.noUiSlider.set([priceElement.value, null]);
 });
 
-export const defaultPrice = () => {
+export const setPrice = () => {
   sliderElement.noUiSlider.set(MIN);
   priceElement.placeholder = MIN_PRICE_OF_HOUSE[typeElement.value];
   priceElement.min = MIN_PRICE_OF_HOUSE[typeElement.value];
 };
 
 typeElement.addEventListener('change', () => {
-  defaultPrice();
+  setPrice();
+  pristine.reset();
 });
 
-defaultPrice();
+setPrice();
 
 const validatePrice = () => parseInt(priceElement.getAttribute('min'), 10) <= priceElement.value;
 

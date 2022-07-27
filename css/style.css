@@ -606,6 +606,8 @@ fieldset {
 
   background-color: #e4e4de;
   border-radius: 5px;
+  
+  object-fit: cover;
 }
 
 .ad-form__element--submit {
