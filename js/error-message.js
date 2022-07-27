@@ -21,38 +21,52 @@ const messageErrorTemplate = document.querySelector('#error')
 
 const closeErrorAlertButton = messageErrorTemplate.querySelector('.error__button');
 
-const showSuccesDialog = () => {
+const showSuccessDialog = () => {
   document.body.append(messageSuccessTemplate);
 
-  messageSuccessTemplate.addEventListener('click', ()=>{
-    messageSuccessTemplate.remove();
+  messageSuccessTemplate.addEventListener('click', () => {
+    removeSuccessDialog();
   });
 
-  document.addEventListener('keydown', (evt)=>{
+  const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      messageSuccessTemplate.remove();
+      removeSuccessDialog();
     }
-  });
+  };
+
+  document.addEventListener('keydown', onDocumentKeydown);
+
+  function removeSuccessDialog() {
+    messageSuccessTemplate.remove();
+    document.removeEventListener('keydown', onDocumentKeydown);
+  }
 };
 
 const showAlertDialog = () => {
   document.body.append(messageErrorTemplate);
 
-  messageErrorTemplate.addEventListener('click', ()=>{
-    messageErrorTemplate.remove();
-  });
-
-  closeErrorAlertButton.addEventListener('click', ()=>{
-    messageErrorTemplate.remove();
-  });
-
-  document.addEventListener('keydown', (evt)=>{
+  const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      messageErrorTemplate.remove();
+      removeAlertDialog();
     }
+  };
+
+  messageErrorTemplate.addEventListener('click', () => {
+    removeAlertDialog();
   });
+
+  closeErrorAlertButton.addEventListener('click', () => {
+    removeAlertDialog();
+  });
+
+  document.addEventListener('keydown', onDocumentKeydown);
+
+  function removeAlertDialog() {
+    messageErrorTemplate.remove();
+    document.removeEventListener('keydown', onDocumentKeydown);
+  }
 };
 
-export {showAlertError, showSuccesDialog, showAlertDialog};
+export { showAlertError, showSuccessDialog, showAlertDialog };

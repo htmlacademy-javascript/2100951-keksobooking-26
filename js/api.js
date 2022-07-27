@@ -1,8 +1,8 @@
-const getAddress = 'https://26.javascript.pages.academy/keksobooking/data';
-const saveAddress =  'https://26.javascript.pages.academy/keksobooking';
+const GET_ADS = 'https://26.javascript.pages.academy/keksobooking/data';
+const SAVE_AD = 'https://26.javascript.pages.academy/keksobooking';
 
 export const getAds = (onSuccess, onFail) => {
-  fetch(getAddress)
+  fetch(GET_ADS)
     .then((response) => response.json())
     .then((ads) => {
       onSuccess(ads);
@@ -14,7 +14,7 @@ export const getAds = (onSuccess, onFail) => {
 
 export const saveAd = (onSuccess, onFail, body) => {
   fetch(
-    saveAddress,
+    SAVE_AD,
     {
       method: 'POST',
       body,

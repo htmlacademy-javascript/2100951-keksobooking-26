@@ -1,7 +1,8 @@
 import { saveAd } from './api.js';
-import { showAlertDialog, showSuccesDialog } from './error-message.js';
-import { resetMap } from './map.js';
-import { onFilterReset } from './filters.js';
+import { showAlertDialog, showSuccessDialog } from './error-message.js';
+import { onMapReset } from './map.js';
+import { filterReset } from './filters.js';
+import { pristine, defaultPrice } from './validations.js';
 
 const mapForm = document.querySelector('.map__filters');
 const mapFormSelects = mapForm.querySelectorAll('select');
@@ -15,7 +16,7 @@ export const setAddress = (coordinates) => {
   address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
 };
 
-const disableForm = () => {
+export const disableForm = () => {
   mapForm.classList.add('map__filters--disabled');
   adForm.classList.add('ad-form--disabled');
 
@@ -29,7 +30,9 @@ const disableForm = () => {
   });
 };
 
-const activateForm = () => {
+disableForm();
+
+export const activateForm = () => {
   mapForm.classList.remove('map__filters--disabled');
   adForm.classList.remove('ad-form--disabled');
 
@@ -44,15 +47,16 @@ const activateForm = () => {
   });
 };
 
-const resetForm = () => {
+export const resetForm = () => {
   form.reset();
-  onFilterReset();
+  filterReset();
+  pristine.reset();
+  defaultPrice();
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', resetForm);
-
 const submitButton = document.querySelector('.ad-form__submit');
+
 const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = 'Опубликовываем...';
@@ -66,20 +70,21 @@ const unblockSubmitButton = () => {
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  blockSubmitButton();
-
-  saveAd(() => {
-    showSuccesDialog();
-    form.reset();
-    resetMap();
-    unblockSubmitButton();
-  },
-  () => {
-    showAlertDialog();
-    unblockSubmitButton();
-  },
-  new FormData(evt.target),
-  );
+  if (pristine.validate()) {
+    blockSubmitButton();
+    saveAd(() => {
+      showSuccessDialog();
+      resetForm();
+      onMapReset();
+      unblockSubmitButton();
+    },
+    () => {
+      showAlertDialog();
+      unblockSubmitButton();
+    },
+    new FormData(evt.target),
+    );
+  }
 });
 
 resetButton.addEventListener('click', (evt) => {
@@ -87,4 +92,4 @@ resetButton.addEventListener('click', (evt) => {
   resetForm();
 });
 
-export { disableForm, activateForm };
+

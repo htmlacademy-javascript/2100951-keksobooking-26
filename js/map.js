@@ -1,12 +1,8 @@
-import { activateForm, setAddress } from './forms.js';
-import {createPopup} from './ad-popup.js';
+import { activateForm, resetForm, setAddress } from './forms.js';
+import { createPopup } from './ad-popup.js';
 import { getAds } from './api.js';
 import { showAlertError } from './error-message.js';
-import {  setFilterListener } from './filters.js';
-
-export const removeMapPin = () => {
-  layerGroup.clearLayers();
-};
+import { getMaxAds, saveAds } from './ads.js';
 
 const TOKYO = { lat: 35.65283, lng: 139.83948 };
 const MAP_ZOOM = 10;
@@ -51,20 +47,14 @@ markerCenter.on('moveend', (evt) => {
   setAddress(evt.target.getLatLng());
 });
 
-export const resetMap = () => {
-  markerCenter.setLatLng({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  });
-
-  map.setView({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  }, MAP_ZOOM);
+export const removeMapPin = () => {
+  layerGroup.clearLayers();
 };
 
 export const renderPins = (ads) => {
-  ads.slice(0, 10).forEach((ad) => {
+  removeMapPin();
+
+  ads.forEach((ad) => {
     const pinMarker = L.marker(
       {
         lat: ad.location.lat,
@@ -79,17 +69,31 @@ export const renderPins = (ads) => {
       .addTo(layerGroup)
       .bindPopup(createPopup(ad));
   });
- 
+};
+
+export const onMapReset = () => {
+  markerCenter.setLatLng({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  });
+
+  map.setView({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  }, MAP_ZOOM);
+
+  renderPins(getMaxAds());
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', resetMap);
+resetButton.addEventListener('click', onMapReset);
 
 const onMapLoaded = () => {
   getAds((ads) => {
+    resetForm();
     activateForm();
-    renderPins(ads);
-    setFilterListener(ads);
+    saveAds(ads);
+    renderPins(getMaxAds());
   }, showAlertError);
 };
 
@@ -97,5 +101,4 @@ map.on('load', onMapLoaded)
   .setView({
     lat: TOKYO.lat,
     lng: TOKYO.lng,
-  },MAP_ZOOM);
-
+  }, MAP_ZOOM);

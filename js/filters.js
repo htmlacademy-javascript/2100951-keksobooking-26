@@ -1,23 +1,23 @@
-import { removeMapPin, renderPins } from "./map.js";
-const ADS_COUNT = 10;
+import { getLocalAds, MAX_ADS_COUNT } from './ads.js';
+import { renderPins } from './map.js';
+import { debounce } from './utils.js';
+
 const PriceValue = {
   MIDDLE: 10000,
   HIGH: 50000
 };
 
 const mapFilters = document.querySelector('.map__filters');
-const filterSelects = mapFilters.querySelectorAll('select');
 const housingType = mapFilters.querySelector('#housing-type');
 const housingPrice = mapFilters.querySelector('#housing-price');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
 const housingFeatures = mapFilters.querySelector('#housing-features');
-const filterCheckboxes = housingFeatures.querySelectorAll('input');
 
-const fiterByType = (ad, type) => type === 'any' || ad.offer.type === type;
+const filterByType = (ad) => housingType.value === 'any' || ad.offer.type === housingType.value;
 
-const filterByPrice = (ad, price) => {
-  switch (price) {
+const filterByPrice = (ad) => {
+  switch (housingPrice.value) {
     case 'any':
       return true;
     case 'low':
@@ -31,62 +31,44 @@ const filterByPrice = (ad, price) => {
   }
 };
 
-const filterByRooms = (ad, rooms) => rooms === 'any' || ad.offer.rooms === +rooms;
+const filterByRooms = (ad) => housingRooms.value === 'any' || ad.offer.rooms === +housingRooms.value;
 
-const filterByGuests = (ad, guests) => guests === 'any' || ad.offer.guests === +guests;
+const filterByGuests = (ad) => housingGuests.value === 'any' || ad.offer.guests === +housingGuests.value;
 
-const filterByFeatures = (ad, features) => {
+const filterByFeatures = (ad) => {
+  const checkedFeatures = Array.from(housingFeatures.querySelectorAll('input[type="checkbox"]:checked'));
   const dataFeatures = ad.offer.features;
-  if (dataFeatures) {
-    return features.every((feature) => dataFeatures.includes(feature.value));
+
+  if (dataFeatures || checkedFeatures.length) {
+    return checkedFeatures.every((feature) => dataFeatures.includes(feature.value));
   }
 };
 
-const filterAds = (data) => {
-  const selectedType = housingType.value;
-  const selectedPrice = housingPrice.value;
-  const selectedRooms = housingRooms.value;
-  const selectedGuests = housingGuests.value;
-  const checkedFeatures = Array.from(housingFeatures.querySelectorAll('input[type="checkbox"]:checked'));
-
+const filterAds = (ads) => {
   const filteredAds = [];
 
-  for (const ad of data) {
-    if (filteredAds.length >= ADS_COUNT) {
-      break;
-    }
-
+  for (const ad of ads) {
     if (
-      fiterByType(ad, selectedType) &&
-      filterByPrice(ad, selectedPrice) &&
-      filterByRooms(ad, selectedRooms) &&
-      filterByGuests(ad, selectedGuests) &&
-      filterByFeatures(ad, checkedFeatures)
+      [filterByType, filterByPrice, filterByRooms, filterByGuests, filterByFeatures].every((call) => call(ad))
     ) {
       filteredAds.push(ad);
+    }
+
+    if (filteredAds.length === MAX_ADS_COUNT) {
+      break;
     }
   }
 
   return filteredAds;
 };
 
-const onFilterChange = (ads) => {
-    removeMapPin();
-    renderPins(filterAds(ads));
-  };
-  
-export const setFilterListener = (data) => {
-    mapFilters.addEventListener('change', debounce(() => onFilterChange(data)));
-  };
-  
-export const onFilterReset = () => {
-    filterSelects.forEach((filterSelect) => {
-        filterSelect.value = 'any';
-      });
-    
-      filterCheckboxes.forEach((filterCheckbox) => {
-        filterCheckbox.checked = false;
-      });
-    
-      renderPins();
-  };
+const onFilterChange = () => {
+  const ads = getLocalAds();
+  const filteredAds = filterAds(ads);
+
+  renderPins(filteredAds);
+};
+
+mapFilters.addEventListener('change', debounce(() => onFilterChange()));
+
+export const filterReset = () => mapFilters.reset();
