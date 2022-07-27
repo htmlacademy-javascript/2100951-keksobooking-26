@@ -23,14 +23,13 @@ photoInput.addEventListener('change', () => {
 
   if (matches) {
     let imgElement = photoContainer.querySelector('img');
+
     if (!imgElement) {
       imgElement = document.createElement('img');
-      imgElement.style.width = '100%';
-      imgElement.style.height = '100%';
-      imgElement.style.objectFit = 'contain';
-
+      imgElement.classList.add('ad-form__photo');
       photoContainer.append(imgElement);
     }
+
     imgElement.src = URL.createObjectURL(photo);
   }
 
@@ -42,6 +41,7 @@ export const avatarReset = () => {
 
 export const photoReset = () => {
   const imgElement = photoContainer.querySelector('img');
+
   if (imgElement) {
     imgElement.remove();
   }

@@ -61,6 +61,7 @@ export const setPrice = () => {
 
 typeElement.addEventListener('change', () => {
   setPrice();
+  pristine.reset();
 });
 
 setPrice();
