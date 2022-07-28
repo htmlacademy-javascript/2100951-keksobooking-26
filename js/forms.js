@@ -70,7 +70,6 @@ const switchSubmitBtnState = (value) => {
   }
 };
 
-
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
