@@ -6,6 +6,7 @@ const PriceValue = {
   MIDDLE: 10000,
   HIGH: 50000
 };
+const RERENDER_DELAY = 500;
 
 const mapFilters = document.querySelector('.map__filters');
 const housingType = mapFilters.querySelector('#housing-type');
@@ -17,18 +18,20 @@ const housingFeatures = mapFilters.querySelector('#housing-features');
 const filterByType = (ad) => housingType.value === 'any' || ad.offer.type === housingType.value;
 
 const filterByPrice = (ad) => {
-  switch (housingPrice.value) {
-    case 'any':
-      return true;
-    case 'low':
-      return ad.offer.price < PriceValue.MIDDLE;
-    case 'middle':
-      return (ad.offer.price < PriceValue.HIGH && ad.offer.price >= PriceValue.MIDDLE);
-    case 'high':
-      return ad.offer.price >= PriceValue.HIGH;
-    default:
-      return true;
+  if (housingPrice.value === 'any') {
+    return true;
   }
+  if (housingPrice.value === 'low') {
+    return ad.offer.price < PriceValue.MIDDLE;
+  }
+  if (housingPrice.value === 'middle') {
+    return (ad.offer.price < PriceValue.HIGH && ad.offer.price >= PriceValue.MIDDLE);
+  }
+  if (housingPrice.value === 'high') {
+    return ad.offer.price >= PriceValue.HIGH;
+  }
+
+  return true;
 };
 
 const filterByRooms = (ad) => housingRooms.value === 'any' || ad.offer.rooms === +housingRooms.value;
@@ -36,12 +39,12 @@ const filterByRooms = (ad) => housingRooms.value === 'any' || ad.offer.rooms ===
 const filterByGuests = (ad) => housingGuests.value === 'any' || ad.offer.guests === +housingGuests.value;
 
 const filterByFeatures = (ad) => {
-  const checkedFeatures = Array.from(housingFeatures.querySelectorAll('input[type="checkbox"]:checked'));
+  const checkedFeatures = Array.from(housingFeatures.querySelectorAll('input[name="features"]:checked'));
   const dataFeatures = ad.offer.features;
-
-  if (dataFeatures || checkedFeatures.length) {
+  if (dataFeatures) {
     return checkedFeatures.every((feature) => dataFeatures.includes(feature.value));
   }
+  return false;
 };
 
 const filterAds = (ads) => {
@@ -62,13 +65,14 @@ const filterAds = (ads) => {
   return filteredAds;
 };
 
-const onFilterChange = () => {
+const filterPins = () => {
   const ads = getLocalAds();
   const filteredAds = filterAds(ads);
 
   renderPins(filteredAds);
 };
 
-mapFilters.addEventListener('change', debounce(() => onFilterChange()));
+const onFilterChange = debounce(filterPins, RERENDER_DELAY);
+mapFilters.addEventListener('change', onFilterChange);
 
 export const filterReset = () => mapFilters.reset();

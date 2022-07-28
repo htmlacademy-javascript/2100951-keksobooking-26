@@ -20,9 +20,8 @@ export const createPopup = (ad) => {
   if (ad.offer.features) {
     for (const feature of ad.offer.features) {
       const li = document.createElement('li');
-      li.className = `popup__feature--${feature}`;
+      li.classList.add('popup__feature', `popup__feature--${feature}`);
       li.textContent = feature;
-
       featuresContainer.append(li);
     }
   }

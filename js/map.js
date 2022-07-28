@@ -4,7 +4,7 @@ import { getAds } from './api.js';
 import { showAlertError } from './error-message.js';
 import { getMaxAds, saveAds } from './ads.js';
 
-const TOKYO = { lat: 35.65283, lng: 139.83948 };
+const Tokyo = { lat: 35.65283, lng: 139.83948 };
 const MAP_ZOOM = 10;
 
 const map = L.map('map-canvas');
@@ -32,8 +32,8 @@ const pinIcon = L.icon({
 
 const markerCenter = L.marker(
   {
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
+    lat: Tokyo.lat,
+    lng: Tokyo.lng,
   },
   {
     draggable: true,
@@ -73,13 +73,13 @@ export const renderPins = (ads) => {
 
 export const onMapReset = () => {
   markerCenter.setLatLng({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
+    lat: Tokyo.lat,
+    lng: Tokyo.lng,
   });
 
   map.setView({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
+    lat: Tokyo.lat,
+    lng: Tokyo.lng,
   }, MAP_ZOOM);
 
   renderPins(getMaxAds());
@@ -99,6 +99,6 @@ const onMapLoaded = () => {
 
 map.on('load', onMapLoaded)
   .setView({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
+    lat: Tokyo.lat,
+    lng: Tokyo.lng,
   }, MAP_ZOOM);
