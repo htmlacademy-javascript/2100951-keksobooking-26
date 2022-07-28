@@ -6,14 +6,14 @@ const CAPACITY_OPTIONS = {
   '3': ['1', '2', '3'],
   '100': ['0']
 };
-const MIN_PRICE_OF_HOUSE = {
+const minPriceOfHouse = {
   palace: 10000,
   flat: 1000,
   house: 5000,
   bungalow: 0,
   hotel: 3000
 };
-const PRICE_ERROR_MESSAGE = 'Указанная сумма меньше минимальной';
+const PRICE_ERROR_MESSAGE = 'Указанная сумма меньше минимальной или превышает максимальное';
 
 const form = document.querySelector('.ad-form');
 
@@ -47,16 +47,18 @@ noUiSlider.create(sliderElement, {
 
 sliderElement.noUiSlider.on('slide', () => {
   priceElement.value = sliderElement.noUiSlider.get();
+  pristine.reset();
 });
 
 priceElement.addEventListener('input', () => {
   sliderElement.noUiSlider.set([priceElement.value, null]);
+  pristine.reset();
 });
 
 export const setPrice = () => {
   sliderElement.noUiSlider.set(MIN);
-  priceElement.placeholder = MIN_PRICE_OF_HOUSE[typeElement.value];
-  priceElement.min = MIN_PRICE_OF_HOUSE[typeElement.value];
+  priceElement.placeholder = minPriceOfHouse[typeElement.value];
+  priceElement.min = minPriceOfHouse[typeElement.value];
 };
 
 typeElement.addEventListener('change', () => {
@@ -65,8 +67,7 @@ typeElement.addEventListener('change', () => {
 });
 
 setPrice();
-
-const validatePrice = () => parseInt(priceElement.getAttribute('min'), 10) <= priceElement.value;
+const validatePrice = () => parseInt(priceElement.getAttribute('min'), 10) <= priceElement.value && priceElement.value <= MAX;
 
 const price = form.querySelector('#price');
 
@@ -102,17 +103,20 @@ roomNumber.addEventListener('input', () => {
 });
 
 const getGuestsErrorMessage = () => {
-  switch (roomNumber.value) {
-    case '3':
-      return 'для 1 гостя, для 2 гостей или для 3 гостей';
-    case '2':
-      return 'для 1 гостя или для 2 гостей';
-    case '1':
-      return 'для 1 гостя';
-    case '100':
-      return 'не для гостей';
+  if (roomNumber.value === '3' && guestNumber.value !== '0') {
+    return 'для 1 гостя, для 2 гостей или для 3 гостей';
+  }
+  if (roomNumber.value === '2' && guestNumber.value !== '0') {
+    return 'для 1 гостя или для 2 гостей';
+  }
+  if (roomNumber.value === '1' && guestNumber.value !== '0') {
+    return 'для 1 гостя';
+  }
+  if (guestNumber.value === '0' || roomNumber.value === '100') {
+    return 'не для гостей';
   }
 };
+
 
 pristine.addValidator(guestNumber, isCorrectCapacity, getGuestsErrorMessage);
 

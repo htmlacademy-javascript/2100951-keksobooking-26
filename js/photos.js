@@ -35,11 +35,11 @@ photoInput.addEventListener('change', () => {
 
 });
 
-export const avatarReset = () => {
+export const resetAvatar = () => {
   headerPreview.src = './img/muffin-grey.svg';
 };
 
-export const photoReset = () => {
+export const resetPhoto = () => {
   const imgElement = photoContainer.querySelector('img');
 
   if (imgElement) {
