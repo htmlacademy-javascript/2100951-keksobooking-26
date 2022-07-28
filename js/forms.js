@@ -12,6 +12,8 @@ const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
 const address = document.querySelector('#address');
 const form = document.querySelector('.ad-form');
+const unblockButton = 'Опубликовать';
+const blockButton = 'Опубликовываю';
 
 export const setAddress = (coordinates) => {
   address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
@@ -60,30 +62,29 @@ export const resetForm = () => {
 const resetButton = document.querySelector('.ad-form__reset');
 const submitButton = document.querySelector('.ad-form__submit');
 
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Опубликовываем...';
+const switchSubmitBtnState = (value) => {
+  submitButton.disabled = value;
+  submitButton.textContent = unblockButton;
+  if (value === true) {
+    submitButton.textContent = blockButton;
+  }
 };
 
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
-};
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
-    blockSubmitButton();
+    switchSubmitBtnState(true);
     saveAd(() => {
       showSuccessDialog();
       resetForm();
       onMapReset();
-      unblockSubmitButton();
+      switchSubmitBtnState(false);
     },
     () => {
       showAlertDialog();
-      unblockSubmitButton();
+      switchSubmitBtnState(false);
     },
     new FormData(evt.target),
     );
