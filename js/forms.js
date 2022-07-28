@@ -12,8 +12,8 @@ const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
 const address = document.querySelector('#address');
 const form = document.querySelector('.ad-form');
-const unblockButton = 'Опубликовать';
-const blockButton = 'Опубликовываю';
+const UNBLOCKBUTTON = 'Опубликовать';
+const BLOCKBUTTON = 'Опубликовываю';
 
 export const setAddress = (coordinates) => {
   address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
@@ -64,9 +64,9 @@ const submitButton = document.querySelector('.ad-form__submit');
 
 const switchSubmitBtnState = (value) => {
   submitButton.disabled = value;
-  submitButton.textContent = unblockButton;
+  submitButton.textContent = UNBLOCKBUTTON;
   if (value === true) {
-    submitButton.textContent = blockButton;
+    submitButton.textContent = BLOCKBUTTON;
   }
 };
 
